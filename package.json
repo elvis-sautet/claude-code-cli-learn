@@ -1,0 +1,19 @@
+{
+  "name": "camera-and-meetings",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Open the camera and launch free Jitsi video meetings. Type-safe frontend with E2E tests.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "serve": "node serve.mjs",
+    "start": "tsc && node serve.mjs",
+    "test": "tsc && playwright test",
+    "test:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Camera &amp; Meetings</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Iconify web component (icons via the mdi set). -->
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+    <!-- Free Jitsi Meet external API. No account, no backend, no cost. -->
+    <script src="https://meet.jit.si/external_api.js"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <h1><iconify-icon icon="mdi:video-account" aria-hidden="true"></iconify-icon> Camera &amp; Meetings</h1>
+      <p class="subtitle">Preview your camera, then launch a free video meeting.</p>
+    </header>
+
+    <main class="layout">
+      <!-- ============ Camera preview ============ -->
+      <section class="panel" aria-labelledby="camera-title">
+        <div class="panel-head">
+          <h2 id="camera-title"><iconify-icon icon="mdi:camera" aria-hidden="true"></iconify-icon> Your Camera</h2>
+          <button id="toggle-settings" type="button" class="icon-btn ghost" aria-label="Device settings" title="Device settings">
+            <iconify-icon icon="mdi:cog" aria-hidden="true"></iconify-icon>
+          </button>
+        </div>
+
+        <div id="settings" class="settings" hidden>
+          <div class="form-row">
+            <label for="camera-select"><iconify-icon icon="mdi:camera" aria-hidden="true"></iconify-icon> Camera</label>
+            <select id="camera-select"><option value="">Default camera</option></select>
+          </div>
+          <div class="form-row">
+            <label for="mic-select"><iconify-icon icon="mdi:microphone" aria-hidden="true"></iconify-icon> Microphone</label>
+            <select id="mic-select"><option value="">Default microphone</option></select>
+          </div>
+        </div>
+
+        <div class="video-wrap">
+          <video id="local-video" autoplay playsinline muted></video>
+          <p id="camera-placeholder" class="placeholder">
+            <iconify-icon icon="mdi:camera-off" aria-hidden="true"></iconify-icon>
+            Camera is off
+          </p>
+
+          <!-- Floating control bar, visible while the camera is live. -->
+          <div id="camera-bar" class="control-bar" hidden>
+            <button id="toggle-camera" type="button" class="icon-btn" aria-pressed="true" aria-label="Turn camera off" title="Turn camera off">
+              <iconify-icon icon="mdi:camera" aria-hidden="true"></iconify-icon>
+            </button>
+            <button id="toggle-mic" type="button" class="icon-btn" aria-pressed="true" aria-label="Mute microphone" title="Mute microphone">
+              <iconify-icon icon="mdi:microphone" aria-hidden="true"></iconify-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="open-camera" type="button" class="btn btn-primary">
+            <iconify-icon icon="mdi:camera" aria-hidden="true"></iconify-icon> Open camera
+          </button>
+          <button id="stop-camera" type="button" class="btn" disabled>
+            <iconify-icon icon="mdi:camera-off" aria-hidden="true"></iconify-icon> Stop camera
+          </button>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- ============ Meeting ============ -->
+      <section class="panel" aria-labelledby="meeting-title">
+        <div class="panel-head">
+          <h2 id="meeting-title"><iconify-icon icon="mdi:account-group" aria-hidden="true"></iconify-icon> Meeting</h2>
+          <span id="meeting-badge" class="badge" hidden>
+            <iconify-icon icon="mdi:circle" aria-hidden="true"></iconify-icon> Live
+          </span>
+        </div>
+
+        <div id="meeting-setup">
+          <div class="form-row">
+            <label for="display-name"><iconify-icon icon="mdi:account" aria-hidden="true"></iconify-icon> Your name</label>
+            <input id="display-name" type="text" placeholder="e.g. Elvis" autocomplete="name" />
+          </div>
+          <div class="form-row">
+            <label for="room-name"><iconify-icon icon="mdi:pound" aria-hidden="true"></iconify-icon> Room name</label>
+            <div class="input-group">
+              <input id="room-name" type="text" placeholder="e.g. team-standup" />
+              <button id="random-room" type="button" class="icon-btn ghost" aria-label="Generate random room" title="Generate random room">
+                <iconify-icon icon="mdi:dice-5" aria-hidden="true"></iconify-icon>
+              </button>
+            </div>
+          </div>
+          <div class="controls">
+            <button id="launch-meeting" type="button" class="btn btn-primary">
+              <iconify-icon icon="mdi:video-plus" aria-hidden="true"></iconify-icon> Launch / Join
+            </button>
+            <button id="copy-link" type="button" class="btn" disabled>
+              <iconify-icon icon="mdi:link-variant" aria-hidden="true"></iconify-icon> Copy link
+            </button>
+          </div>
+        </div>
+
+        <!-- In-meeting control bar -->
+        <div id="meeting-controls" class="control-bar inline" hidden>
+          <button id="m-mic" type="button" class="icon-btn" aria-pressed="true" aria-label="Mute" title="Mute">
+            <iconify-icon icon="mdi:microphone" aria-hidden="true"></iconify-icon>
+          </button>
+          <button id="m-cam" type="button" class="icon-btn" aria-pressed="true" aria-label="Stop video" title="Stop video">
+            <iconify-icon icon="mdi:video" aria-hidden="true"></iconify-icon>
+          </button>
+          <button id="m-share" type="button" class="icon-btn" aria-pressed="false" aria-label="Share screen" title="Share screen">
+            <iconify-icon icon="mdi:monitor-share" aria-hidden="true"></iconify-icon>
+          </button>
+          <button id="m-copy" type="button" class="icon-btn" aria-label="Copy invite link" title="Copy invite link">
+            <iconify-icon icon="mdi:link-variant" aria-hidden="true"></iconify-icon>
+          </button>
+          <button id="leave-meeting" type="button" class="icon-btn danger" aria-label="Leave meeting" title="Leave meeting">
+            <iconify-icon icon="mdi:phone-hangup" aria-hidden="true"></iconify-icon>
+          </button>
+        </div>
+
+        <div id="meeting-container" class="meeting-container" aria-label="Video meeting"></div>
+      </section>
+    </main>
+
+    <!-- Toast for transient feedback (copied link, etc.) -->
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- Compiled from app.ts -> app.js (see README) -->
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
