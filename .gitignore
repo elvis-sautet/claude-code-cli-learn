@@ -1,5 +1,14 @@
 node_modules/
+.claude/worktrees/
+.env
+.env.local
+.env.development
+.env.production
+.env.local.development
+.env.local.production
 test-results/
 playwright-report/
 app.js
+app.js.map
 index.js
+index.js.map

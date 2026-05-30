@@ -1,0 +1,9 @@
+# Files copied into every new worktree (Path A auto-bootstrap).
+# Uses .gitignore syntax. A file is copied only if it matches a pattern here
+# AND is gitignored (tracked files are never duplicated).
+.env
+.env.local
+.env.development
+.env.production
+.env.local.development
+.env.local.production

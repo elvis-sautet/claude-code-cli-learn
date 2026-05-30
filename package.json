@@ -1,16 +1,19 @@
 {
-  "name": "camera-and-meetings",
+  "name": "webrtc-meet",
   "version": "1.0.0",
   "private": true,
-  "description": "Open the camera and launch free Jitsi video meetings. Type-safe frontend with E2E tests.",
+  "description": "A Google Meet-style WebRTC video meeting app with chat. Type-safe frontend + Node signaling server.",
   "type": "module",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "serve": "node serve.mjs",
-    "start": "tsc && node serve.mjs",
+    "serve": "node server.mjs",
+    "start": "tsc && node server.mjs",
     "test": "tsc && playwright test",
     "test:ui": "playwright test --ui"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",
