@@ -84,6 +84,7 @@ const mShare = el<HTMLButtonElement>("m-share");
 const mChat = el<HTMLButtonElement>("m-chat");
 const mLeave = el<HTMLButtonElement>("m-leave");
 const mCopy = el<HTMLButtonElement>("m-copy");
+const participantNum = el<HTMLSpanElement>("participant-num");
 
 // Chat
 const chat = el<HTMLElement>("chat");
@@ -251,7 +252,9 @@ function createTile(name: string, isSelf: boolean): { tile: HTMLDivElement; vide
 }
 
 function updateGridCount(): void {
-  grid.dataset.count = String(grid.querySelectorAll(".tile").length);
+  const count = grid.querySelectorAll(".tile").length;
+  grid.dataset.count = String(count);
+  participantNum.textContent = String(count);
 }
 
 function setTileState(tile: HTMLDivElement, cam: boolean, mic: boolean): void {
@@ -591,6 +594,20 @@ chatForm.addEventListener("submit", (e) => {
   if (!text) return;
   sendChat(text);
   chatInput.value = "";
+});
+
+// In-call keyboard shortcuts: "m" toggles mic, "c" toggles camera.
+// Ignored while typing in a field or before joining a meeting.
+window.addEventListener("keydown", (e) => {
+  if (meeting.hidden) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const target = e.target as HTMLElement | null;
+  if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
+  if (e.key === "m" || e.key === "M") {
+    toggleMic();
+  } else if (e.key === "c" || e.key === "C") {
+    toggleCam();
+  }
 });
 
 window.addEventListener("beforeunload", () => {
