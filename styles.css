@@ -461,6 +461,15 @@ iconify-icon {
   font-size: 0.9rem;
 }
 
+.participant-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.75rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 /* ============ Toast ============ */
 .toast {
   position: fixed;
